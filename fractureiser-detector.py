@@ -4,7 +4,7 @@ import subprocess
 import shutil
 
 PROCYON_JAR_PATH = "procyon-decompiler.jar"
-
+detections = []
 
 def install_procyon():
     procyon_url = "https://github.com/mstrobel/procyon/releases/download/v0.6.0/procyon-decompiler-0.6.0.jar"
@@ -24,6 +24,26 @@ def search_in_directory(directory, search_strings):
                 is_infected |= analyze_jar(file_path, search_strings)
     return is_infected
 
+def search_in_dec_directory(directory, search_strings):
+    is_infected = False
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith(".java"):
+                file_path = os.path.join(root, file)
+                is_infected |= search_in_file(file_path, search_strings)
+    return is_infected
+    
+def search_in_file(file_path, search_strings):
+    is_infected = False
+    with open(file_path, "r") as file:
+        for line in file:
+            for search_string in search_strings:
+                if search_string in line:
+                    is_infected = True
+                    detections.append(f"Warning: File {file_path} is infected!")
+                    print(f"Warning: File {file_path} is infected!")
+                    break
+    return is_infected
 
 def analyze_jar(jar_file, search_strings):
     is_infected = False
@@ -37,7 +57,7 @@ def analyze_jar(jar_file, search_strings):
         decompile_jar(jar_file, decompiled_dir)
 
         # Recursively search for the strings in the decompiled files
-        is_infected = search_in_directory(decompiled_dir, search_strings)
+        is_infected = search_in_dec_directory(decompiled_dir, search_strings)
     finally:
         # Cleanup: Delete the temporary directory
         shutil.rmtree(decompiled_dir)
@@ -82,7 +102,7 @@ def main():
 
     if recursive_mode:
         if not os.path.isdir(jar_path):
-            print("Error: The specified path is not a directory.")
+            print("Error: The specified path is not a directory. if you arent using recursive mode provide the path to a file")
             return
 
         is_infected = search_in_directory(jar_path, search_strings)
@@ -96,6 +116,8 @@ def main():
 
         scan_jar(jar_path, search_strings)
 
+    for detection in detections:
+        print(detection)
 
 if __name__ == "__main__":
     main()

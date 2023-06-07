@@ -6,7 +6,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class fractureiserdetector. {
+public class fractureiserdetector {
     private static final String PROCYON_JAR_PATH = "procyon-decompiler.jar";
 
     public static void main(String[] args) {

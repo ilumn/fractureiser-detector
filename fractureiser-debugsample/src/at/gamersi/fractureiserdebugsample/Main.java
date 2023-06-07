@@ -8,7 +8,6 @@ public class Main {
         String pattern4 = "114.-18.38.108.-100";
         String pattern5 = "-114.-18.38.108.-100";
 
-        // Concatenate the patterns to trigger the detector
         String searchString = pattern1 + " " + pattern2 + " " + pattern3 + " " + pattern4 + " " + pattern5;
 
         System.out.println("This sample jar file should be detected as malicious by the detector.");

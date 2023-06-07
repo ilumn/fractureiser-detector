@@ -5,8 +5,7 @@ For easy of use or run preference I have included Java, Python, and Javascript v
 
 #### to run the python script use the following command:
 recursive scan allows the scanning of a full directory
-```py3 fractureiser-detector.py <jar_file_or_directory> [--recursive]
-``` (windows)
+```py3 fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (windows)
 or
 ```python3 fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (linux)
 followed by the absolute file path to the jar when you are prompted, or the path to the directory if you are doing a recursive scan.

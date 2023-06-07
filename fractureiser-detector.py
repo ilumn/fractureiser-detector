@@ -40,8 +40,9 @@ def search_in_file(file_path, search_strings):
             for search_string in search_strings:
                 if search_string in line:
                     is_infected = True
-                    detections.append(f"Warning: File {file_path} is infected!")
-                    print(f"Warning: File {file_path} is infected!")
+                    if not f"Warning: File {file_path} is infected!" in detections:
+                        detections.append(f"Warning: File {file_path} is infected!")
+                        print(f"Warning: File {file_path} is infected!")
                     break
     return is_infected
 
@@ -116,8 +117,8 @@ def main():
 
         scan_jar(jar_path, search_strings)
 
-    for detection in detections:
-        print(detection)
+    # for detection in detections:
+    #     print(detection)
 
 if __name__ == "__main__":
     main()

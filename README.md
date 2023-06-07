@@ -22,6 +22,7 @@ Provide the absolute file path to the JAR when prompted.
 
 #### To run the JavaScript program, use the following command:
 ```node fractureiser-detector.js <jar_file> [--recursive]```
+
 ----
 
 ## Current Features:

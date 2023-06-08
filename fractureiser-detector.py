@@ -24,7 +24,7 @@ def extract_modrinth_mods(mrpack_path, search_strings):
 
     json_file = os.path.join(modrinth_dir, 'modrinth.index.json')
     # Cleanup: Delete the temporary directory
-    shutil.rmtree(modrinth_dir)
+    #shutil.rmtree(modrinth_dir)
     return download_mods(json_file, modrinth_dir, search_strings)
 
 def download_mods(json_file, modrinth_dir, search_strings):

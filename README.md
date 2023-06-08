@@ -9,9 +9,9 @@ For ease of use or personal preference, I have included Java, Python, and JavaSc
 
 #### To run the Python script, use the following command:
 Recursive scanning allows scanning of a full directory.
-```python fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (Windows)
+```python fractureiser-detector.py <jar_file_or_directory> [--recursive/--modrinth]``` (Windows)
 or
-```python3 fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (Linux)
+```python3 fractureiser-detector.py <jar_file_or_directory> [--recursive/--modrinth]``` (Linux)
 
 Provide the absolute file path to the JAR when prompted, or the path to the directory if you are doing a recursive scan.
 
@@ -27,6 +27,7 @@ Provide the absolute file path to the JAR when prompted.
 
 ## Current Features:
 - Recursive directory scanning to identify malicious files in your mods folder (Python only)
+- modrinth modpack scanning, (Python only)
 - Full decompiling
 - Configurable search parameters
 

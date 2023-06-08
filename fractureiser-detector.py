@@ -2,6 +2,9 @@ import os
 import argparse
 import subprocess
 import shutil
+import zipfile
+import json
+import requests
 
 PROCYON_JAR_PATH = "procyon-decompiler.jar"
 detections = []
@@ -14,6 +17,39 @@ def install_procyon():
 def decompile_jar(jar_file, output_dir):
     subprocess.run(["java", "-jar", PROCYON_JAR_PATH, "-o", output_dir, jar_file], check=True)
 
+def extract_modrinth_mods(mrpack_path, search_strings):
+    modrinth_dir = os.path.join(os.getcwd(), "modrinth")
+    with zipfile.ZipFile(mrpack_path, 'r') as archive:
+        archive.extractall(modrinth_dir)
+
+    json_file = os.path.join(modrinth_dir, 'modrinth.index.json')
+    # Cleanup: Delete the temporary directory
+    shutil.rmtree(modrinth_dir)
+    return download_mods(json_file, modrinth_dir, search_strings)
+
+def download_mods(json_file, modrinth_dir, search_strings):
+    with open(json_file) as file:
+        data = json.load(file)
+
+    mods = data['files']
+
+    for mod in mods:
+        file_path = os.path.join(modrinth_dir, mod['path'])
+        download_url = mod['downloads'][0]
+
+        # Create directories if they don't exist
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        # Download the mod file
+        response = requests.get(download_url)
+        if response.status_code == 200:
+            with open(file_path, 'wb') as file:
+                file.write(response.content)
+                print(f"Downloaded: {file_path}")
+        else:
+            print(f"Failed to download: {file_path}")
+
+    return search_in_directory(os.path.join(modrinth_dir,"mods"), search_strings)
 
 def search_in_directory(directory, search_strings):
     is_infected = False
@@ -83,10 +119,16 @@ def main():
         action="store_true",
         help="Scan JAR files in the directory recursively",
     )
+    parser.add_argument(
+        "--modrinth",
+        action="store_true",
+        help="Scan an entire modrinth modpack"
+    )
 
     args = parser.parse_args()
     jar_path = args.file
     recursive_mode = args.recursive
+    modrinth_mode = args.modrinth
 
     search_strings = [
         "85.217.144.130",
@@ -99,6 +141,16 @@ def main():
     # Check if Procyon decompiler is installed
     if not os.path.exists(PROCYON_JAR_PATH):
         install_procyon()
+
+    if modrinth_mode:
+        if not os.path.isfile(jar_path):
+            print("Error: The specified path is not an mrpack.")
+            return
+
+        is_infected = extract_modrinth_mods(jar_path, search_strings)
+
+        if not is_infected:
+            print("No infected files found in the modpack.")
 
     if recursive_mode:
         if not os.path.isdir(jar_path):
@@ -116,8 +168,14 @@ def main():
 
         scan_jar(jar_path, search_strings)
 
-    for detection in detections:
-        print(detection)
+    if modrinth_mode:
+        if detections != []:
+            print("Warning: Modpack is infected, the following mods were detected")
+            for detection in detections:
+                print(detection)
+    else:
+        for detection in detections:
+            print(detection)
 
 if __name__ == "__main__":
     main()

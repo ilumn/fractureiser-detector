@@ -23,10 +23,10 @@ def extract_modrinth_mods(mrpack_path, search_strings):
         archive.extractall(modrinth_dir)
 
     json_file = os.path.join(modrinth_dir, 'modrinth.index.json')
+    infected = download_mods(json_file, modrinth_dir, search_strings)
     # Cleanup: Delete the temporary directory
-    #shutil.rmtree(modrinth_dir)
-    return download_mods(json_file, modrinth_dir, search_strings)
-
+    shutil.rmtree(modrinth_dir)
+    return infected
 def download_mods(json_file, modrinth_dir, search_strings):
     with open(json_file) as file:
         data = json.load(file)

@@ -1,27 +1,36 @@
 # fractureiser-detector
-### (If you have any suggestions issues or concerns please open an issue or add a pull request with your own solution, I will be improving this frequently)
-#### Detects the malware embeded in recent comrpomised CurseForge mods (currently reffered to as fractureiser) (WARNING: only the python script supports full directory scanning)
-----
-For easy of use or run preference I have included Java, Python, and Javascript versions of the detector. I recommend Python but it is up to you.
+### (If you have any suggestions, issues, or concerns, please open an issue or add a pull request with your own solution. I will be improving this frequently.)
 
-#### to run the python script use the following command:
-recursive scan allows the scanning of a full directory
-```py3 fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (windows)
+#### Detects the malware embedded in recently compromised CurseForge mods (currently referred to as fractureiser). (WARNING: Only the Python script supports full directory scanning.)
+
+----
+
+For ease of use or personal preference, I have included Java, Python, and JavaScript(Node.js) versions of the detector. I recommend Python, but the choice is yours.
+
+#### To run the Python script, use the following command:
+Recursive scanning allows scanning of a full directory.
+```python fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (Windows)
 or
-```python3 fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (linux)
-followed by the absolute file path to the jar when you are prompted, or the path to the directory if you are doing a recursive scan.
+```python3 fractureiser-detector.py <jar_file_or_directory> [--recursive]``` (Linux)
 
-#### to run the java program use the following command:
-```javac fractureiserdetector.java && java fractureiserdetector.java```
-followed by the absolute file path to the jar when you are prompted.
+Provide the absolute file path to the JAR when prompted, or the path to the directory if you are doing a recursive scan.
+
+#### To run the Java program, use the following command:
+```javac fractureiserdetector.java && java fractureiserdetector```
+
+Provide the absolute file path to the JAR when prompted.
+
+#### To run the JavaScript program, use the following command:
+```node fractureiser-detector.js <jar_file> [--recursive]```
 
 ----
-## Current Features:
-- recursive directory scanning to see which files in your mods folder are malicious (python only)
-- full decompiling
-- configureable search parameters
 
-## To Do
-- add recursive scanning to java version
-- add progress bar to recursive scanning mode
-- (anything else you suggest)
+## Current Features:
+- Recursive directory scanning to identify malicious files in your mods folder (Python only)
+- Full decompiling
+- Configurable search parameters
+
+## To Do:
+- Add recursive scanning to Java version
+- Add a progress bar to recursive scanning mode
+- Implement any suggested improvements or additional features
